@@ -10,7 +10,7 @@ set_time_limit(0);
 ob_implicit_flush();
 
 $address = 'localhost';
-$port = 5539;
+$port = 6543;
 
 
 $parse = "";
@@ -31,6 +31,11 @@ do {
         echo "socket accept failed: " . socket_strerror(socket_last_error($sock)) . "\n";
         break;
     }
+
+  /* Server instructions. */
+        $msg = "\nSQL Server is now live. \n" .
+                    "To quit, type 'quit'. To shut down the server type 'shutdown'.\n";
+        socket_write($msgsock, $msg, strlen($msg));
 
 
     do {
@@ -65,9 +70,8 @@ do {
             $parse = "";
         } else{
             $parse = "";
-            $final_output = "asyntax error\n";
+            $final_output = "syntax error\n";
         }
-        // $talkback = $buf."\n";
         socket_write($msgsock, $final_output, strlen($final_output));
     } while (true);
     socket_close($msgsock);

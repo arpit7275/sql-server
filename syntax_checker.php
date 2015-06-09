@@ -69,6 +69,4 @@ function whereCheck($input_where) {
         return false;
     }
 }
-
-
 ?>
