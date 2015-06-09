@@ -1,7 +1,6 @@
 <?php
-$final_output = "";
-$star = 0;
 
+//Checks the basic structure of query
 function firstCheck($input_sql){
     $pattern = "/\s*select\s+(?:(?!\s+from\s*).)*\s+from\s+[a-z0-9_]+\s+where\s+[^.,;]+\s*;$/i";
     preg_match($pattern, $input_sql, $first_pass);
@@ -12,6 +11,7 @@ function firstCheck($input_sql){
     }
 }
 
+//This function further checks for syntax errors
 function secondCheck($input_sql){
     global $star;
     $input_sql = trim($input_sql);
@@ -34,6 +34,7 @@ function secondCheck($input_sql){
 }
 
 
+//This function checks for errors in SELECT part of query
 function selectCheck($input_select){
 
     $select_pattern = '/[^a-zA-Z_]+/';
@@ -45,6 +46,7 @@ function selectCheck($input_select){
     }
 }
 
+//This function checks for errors in FROM part of query
 function fromCheck($input_from) {
     $from_pattern = '/[^A-Za-z0-9 _ .-]/';
     preg_match($from_pattern, $input_from, $from_pass);
@@ -57,6 +59,7 @@ function fromCheck($input_from) {
 
 
 
+//This function checks for errors in WHERE part of query
 function whereCheck($input_where) {
     $where_pattern = "/where\s+\w+\s*(<=>|!=|>=|<=|<>|>|<|=)\s*([0-9]+|'\w+'|\"\w+\")(?:\s+and\s+\w+\s*(<=>|!=|>=|<=|<>|>|<|=)\s*([0-9]+|'\w+'|\"\w+\")\s*?)*;$/i";
     preg_match($where_pattern, $input_where, $where_pass);

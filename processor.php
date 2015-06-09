@@ -2,6 +2,7 @@
 require_once 'Console/Table.php';
 require_once 'syntax_checker.php';
 
+//It process and check for syntax errors
 function process($tokens) {
     $prev_category = "";
     $token_category = "";
@@ -121,6 +122,12 @@ function process($tokens) {
 }
 
 
+/*This function splits the input string based on 3-Parameters
+        SELECT
+        FROM
+        WHERE
+ */
+
 function spli($sqli) {
     $splitters = array("<=>", "\r\n", "!=", ">=", "<=", "<>", "<<", ">>", ":=", "\\", "&&", "||", ":=", ">", "<", "|", "=", "^", "(", ")", "\t", "\n", "'", "\"", "`", ",", "@", " ", "+", "-", "*", "/", ";");
     $tokenSize = strlen($splitters[0]);
@@ -166,6 +173,7 @@ function spli($sqli) {
     process($tokens);
 }
 
+// After checking the syntax it performs all the operations on the Table
 function query($final_input){
     global $final_output;
     global $star;
